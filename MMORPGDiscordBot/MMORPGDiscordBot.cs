@@ -62,7 +62,7 @@ namespace MMORPGDiscordBot
             if (e.User.Name != "MMORPGBot")
             {
                 //Help command
-                if (e.Message.Text.Contains("!help"))
+                if (e.Message.Text.ToLower().Contains("!help"))
                 {
                     e.Channel.SendMessage("```MMORPG BOT V0.01\n"
                         + "!create USERNAME GENDER\n"
@@ -73,22 +73,32 @@ namespace MMORPGDiscordBot
                         + "```");
                 }
                 //Create command
-                if (e.Message.Text.Contains("!create"))
+                if (e.Message.Text.ToLower().Contains("!create"))
                 {
                     try
                     {
-                        var parms = Regex.Split(e.Message.Text.Substring(8), " ");
-                        if (parms.Length != 2)
+                        if(!CheckIfPlayerExist(e.User.Id))
                         {
                             e.Channel.SendMessage("Invalid inputs.");
                             throw new Exception(); 
+                            var parms = Regex.Split(e.Message.Text.Substring(8), " ");
+                            if (parms.Length != 2)
+                            {
+                                throw new Exception();
+                            }
+                            if (CheckIfPlayerExist(e.User.Id))
+                            {
+                                throw new Exception();
+                            }
+                            CreateNewPlayer(e, parms);
                         }
-                        if (CheckIfPlayerExist(e.User.Id))
+                        else
                         {
                             e.Channel.SendMessage("Player already exists.");
                             throw new Exception();
+                            e.Channel.SendMessage("You already have a character");
                         }
-                        CreateNewPlayer(e, parms);
+                        
                     }
                     catch (Exception)
                     {
@@ -96,7 +106,7 @@ namespace MMORPGDiscordBot
                     }
                 }
                 //Display command
-                if (e.Message.Text == ("!display"))
+                if (e.Message.Text.ToLower() == ("!display"))
                 {
                     try
                     {
@@ -107,7 +117,8 @@ namespace MMORPGDiscordBot
                         e.Channel.SendMessage("Invalid inputs or this player does not exist");
                     }
                 }
-                else if (e.Message.Text.Contains("!display"))
+                //Display command with parameters for other players
+                else if (e.Message.Text.ToLower().Contains("!display"))
                 {
                     try
                     {
@@ -132,7 +143,7 @@ namespace MMORPGDiscordBot
                     }
                 }
                 //Mine command
-                if (e.Message.Text.Contains("!mine"))
+                if (e.Message.Text.ToLower().Contains("!mine"))
                 {
                     try
                     {
@@ -157,7 +168,7 @@ namespace MMORPGDiscordBot
                     }
                 }
                 //Chop command
-                if (e.Message.Text.Contains("!chop"))
+                if (e.Message.Text.ToLower().Contains("!chop"))
                 {
                     try
                     {
@@ -182,7 +193,7 @@ namespace MMORPGDiscordBot
                     }
                 }
                 //Move command
-                if (e.Message.Text.Contains("!move"))
+                if (e.Message.Text.ToLower().Contains("!move"))
                 {
                     try
                     {
@@ -226,10 +237,11 @@ namespace MMORPGDiscordBot
                             throw new Exception();
                         }
                     }
-                    catch (Exception)
+                    catch
                     {
 
                     }
+
                 }
                 if (e.Message.Text.Contains("!attack"))
                 {

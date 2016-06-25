@@ -1,8 +1,20 @@
 # MMORPG-Discord-Bot v1.0
-An MMORPG simulation bot for discord
+Battle and trading system
+## Installation
+Install packages:
 
-MMORPG Discord bot is a bot for the VOIP program discord. The bot includes:
+https://www.nuget.org/packages/Discord.Net/
 
-Player creation
-Woodcutting
-Mining
+https://www.nuget.org/packages/Discord.Net.Commands/
+
+In MMORPGDiscordBot.cs change bot.connect to your bots login details
+## Contributing
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+## Credits
+PositiveProgrammer -Main Developer
+40208539 - Battle System
+
