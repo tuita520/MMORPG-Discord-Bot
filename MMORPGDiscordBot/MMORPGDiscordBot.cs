@@ -206,7 +206,7 @@ namespace MMORPGDiscordBot
                     }
                     catch (Exception)
                     {
-
+                        e.Channel.SendMessage("Invalid inputs or this player does not exist");
                     }
                 }
             }
