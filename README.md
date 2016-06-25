@@ -1,6 +1,3 @@
-
-<snippet>
-  <content><![CDATA[
 # MMORPG-Discord-Bot v1.0
 Battle and trading system
 ## Installation
@@ -17,6 +14,4 @@ In MMORPGDiscordBot.cs change bot.connect to your bots login details
 ## Credits
 PositiveProgrammer -Main Developer
 40208539 - Battle System
-]]></content>
-  <tabTrigger>readme</tabTrigger>
-</snippet>
+
