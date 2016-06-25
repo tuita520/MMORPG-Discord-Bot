@@ -79,6 +79,8 @@ namespace MMORPGDiscordBot
                     {
                         if(!CheckIfPlayerExist(e.User.Id))
                         {
+                            e.Channel.SendMessage("Invalid inputs.");
+                            throw new Exception(); 
                             var parms = Regex.Split(e.Message.Text.Substring(8), " ");
                             if (parms.Length != 2)
                             {
@@ -92,6 +94,8 @@ namespace MMORPGDiscordBot
                         }
                         else
                         {
+                            e.Channel.SendMessage("Player already exists.");
+                            throw new Exception();
                             e.Channel.SendMessage("You already have a character");
                         }
                         
@@ -145,6 +149,10 @@ namespace MMORPGDiscordBot
                     {
                         if (CheckIfPlayerExist(e.User.Id))
                         {
+                            if(GetPlayerById(e.User.Id).action != Action.Mining)
+                            {
+                                e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " began mining.");
+                            }
                             GetPlayerById(e.User.Id).action = Action.Mining;
                             GetPlayerById(e.User.Id).location = Place.Mine;
                             Image newImage = GetPlayerById(e.User.Id).DisplayPlayer();
@@ -166,6 +174,10 @@ namespace MMORPGDiscordBot
                     {
                         if (CheckIfPlayerExist(e.User.Id))
                         {
+                            if (GetPlayerById(e.User.Id).action != Action.WoodCutting)
+                            {
+                                e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " began felling trees.");
+                            }
                             GetPlayerById(e.User.Id).action = Action.WoodCutting;
                             GetPlayerById(e.User.Id).location = Place.Forest;
                             Image newImage = GetPlayerById(e.User.Id).DisplayPlayer();
@@ -192,16 +204,28 @@ namespace MMORPGDiscordBot
                             {
                                 if (parms[0].ToLower().Contains("forest"))
                                 {
+                                    if (GetPlayerById(e.User.Id).location != Place.Forest)
+                                    {
+                                        e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " moved to the forest.");
+                                    }
                                     GetPlayerById(e.User.Id).action = Action.Nothing;
                                     GetPlayerById(e.User.Id).location = Place.Forest;
                                 }
                                 else if (parms[0].ToLower().Contains("mine"))
                                 {
+                                    if (GetPlayerById(e.User.Id).location != Place.Mine)
+                                    {
+                                        e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " moved to the mine.");
+                                    }
                                     GetPlayerById(e.User.Id).action = Action.Nothing;
                                     GetPlayerById(e.User.Id).location = Place.Mine;
                                 }
                                 else if (parms[0].ToLower().Contains("town"))
                                 {
+                                    if (GetPlayerById(e.User.Id).location != Place.Town)
+                                    {
+                                        e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " moved to the town.");
+                                    }
                                     GetPlayerById(e.User.Id).action = Action.Nothing;
                                     GetPlayerById(e.User.Id).location = Place.Town;
                                 }
@@ -213,10 +237,11 @@ namespace MMORPGDiscordBot
                             throw new Exception();
                         }
                     }
-                    catch (Exception)
+                    catch
                     {
-                        e.Channel.SendMessage("Invalid inputs or this player does not exist");
+
                     }
+
                 }
                 if (e.Message.Text.Contains("!attack"))
                 {
@@ -225,7 +250,7 @@ namespace MMORPGDiscordBot
                         var parms = Regex.Split(e.Message.Text.Substring(7), " ");
                         if (parms.Length == 1)
                         {
-                            if(GetPlayerByUserName(parms[0]) != null)
+                            if (GetPlayerByUserName(parms[0]) != null)
                             {
                                 //TODO: Deal damage to players
                                 e.Channel.SendMessage(GetPlayerById(e.User.Id).userName + " attacks " + GetPlayerByUserName(parms[0]).userName);
@@ -236,10 +261,11 @@ namespace MMORPGDiscordBot
                             }
                         }
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         e.Channel.SendMessage("Invalid inputs.");
                     }
+                }
             }
         }
 
