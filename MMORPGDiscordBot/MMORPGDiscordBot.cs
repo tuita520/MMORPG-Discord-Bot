@@ -79,8 +79,6 @@ namespace MMORPGDiscordBot
                     {
                         if(!CheckIfPlayerExist(e.User.Id))
                         {
-                            e.Channel.SendMessage("Invalid inputs.");
-                            throw new Exception(); 
                             var parms = Regex.Split(e.Message.Text.Substring(8), " ");
                             if (parms.Length != 2)
                             {
