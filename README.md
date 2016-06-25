@@ -1,7 +1,7 @@
 
 <snippet>
   <content><![CDATA[
-# ${1:# MMORPG-Discord-Bot v1.0}
+# MMORPG-Discord-Bot v1.0
 Battle and trading system
 ## Installation
 Install packages:
