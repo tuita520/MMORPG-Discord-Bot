@@ -5,6 +5,7 @@ Install packages:
 https://www.nuget.org/packages/Discord.Net/
 
 https://www.nuget.org/packages/Discord.Net.Commands/
+
 In MMORPGDiscordBot.cs change bot.connect to your bots login details
 ## Contributing
 1. Fork it!
