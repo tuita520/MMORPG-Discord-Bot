@@ -77,16 +77,24 @@ namespace MMORPGDiscordBot
                 {
                     try
                     {
-                        var parms = Regex.Split(e.Message.Text.Substring(8), " ");
-                        if (parms.Length != 2)
+                        if(!CheckIfPlayerExist(e.User.Id))
                         {
-                            throw new Exception();
+                            var parms = Regex.Split(e.Message.Text.Substring(8), " ");
+                            if (parms.Length != 2)
+                            {
+                                throw new Exception();
+                            }
+                            if (CheckIfPlayerExist(e.User.Id))
+                            {
+                                throw new Exception();
+                            }
+                            CreateNewPlayer(e, parms);
                         }
-                        if (CheckIfPlayerExist(e.User.Id))
+                        else
                         {
-                            throw new Exception();
+                            e.Channel.SendMessage("You already have a character");
                         }
-                        CreateNewPlayer(e, parms);
+                        
                     }
                     catch (Exception)
                     {
@@ -105,6 +113,7 @@ namespace MMORPGDiscordBot
                         e.Channel.SendMessage("Invalid inputs or this player does not exist");
                     }
                 }
+                //Display command with parameters for other players
                 else if (e.Message.Text.ToLower().Contains("!display"))
                 {
                     try
