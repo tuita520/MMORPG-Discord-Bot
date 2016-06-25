@@ -79,7 +79,7 @@ namespace MMORPGDiscordBot
                     {
                         if(!CheckIfPlayerExist(e.User.Id))
                         {
-                            var parms = Regex.Split(e.Message.Text.Substring(8), " ");
+                            var parms = Regex.Split(e.Message.Text.ToLower().Substring(8), " ");
                             if (parms.Length != 2)
                             {
                                 throw new Exception();
@@ -120,7 +120,7 @@ namespace MMORPGDiscordBot
                 {
                     try
                     {
-                        var parms = Regex.Split(e.Message.Text.Substring(9), " ");
+                        var parms = Regex.Split(e.Message.Text.ToLower().Substring(9), " ");
                         if (parms.Length == 0)
                         {
                             DisplayPlayerStats(e);
@@ -245,7 +245,7 @@ namespace MMORPGDiscordBot
                 {
                     try
                     {
-                        var parms = Regex.Split(e.Message.Text.Substring(8), " ");
+                        var parms = Regex.Split(e.Message.Text.ToLower().Substring(8), " ");
                         if (parms.Length == 1)
                         {
                             if (GetPlayerByUserName(parms[0]) != null)
