@@ -70,10 +70,12 @@ namespace MMORPGDiscordBot
             if (action == Action.Mining)
             {
                 mining += 1f;
+                inventory.AddItem(new ItemObject(Item.Ore,1));
             }
             else if (action == Action.WoodCutting)
             {
                 woodCutting += 1f;
+                inventory.AddItem(new ItemObject(Item.Wood, 1));
             }
             CreatePlayerJSON();
             Console.WriteLine("updated");
