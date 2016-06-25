@@ -247,7 +247,7 @@ namespace MMORPGDiscordBot
                 {
                     try
                     {
-                        var parms = Regex.Split(e.Message.Text.Substring(7), " ");
+                        var parms = Regex.Split(e.Message.Text.Substring(8), " ");
                         if (parms.Length == 1)
                         {
                             if (GetPlayerByUserName(parms[0]) != null)
