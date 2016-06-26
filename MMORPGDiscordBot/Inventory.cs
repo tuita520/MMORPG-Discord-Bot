@@ -9,12 +9,12 @@ namespace MMORPGDiscordBot
     class Inventory
     {
         //List of items
-        public List<ItemObject> inventory = new List<ItemObject>();
+        public List<ItemObject> items = new List<ItemObject>();
 
         //Gets items based on input
         public ItemObject GetItem(ItemObject item)
         {
-            foreach (var itemFound in inventory)
+            foreach (var itemFound in items)
             {
                 if (itemFound == item)
                 {
@@ -27,41 +27,44 @@ namespace MMORPGDiscordBot
         //Adds item
         public void AddItem(ItemObject itemToAdd)
         {
-            ItemObject newItem = DoesInventoryHaveItem(itemToAdd);
-            if (newItem != null)
+            if(items.Count != 0)
             {
-                newItem.amount++;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (items[i].item == itemToAdd.item)
+                    {
+                        items[i].amount++;
+                        Console.WriteLine("increaseing amount");
+                    }
+                    else
+                    {
+                        items.Add(itemToAdd);
+                        Console.WriteLine("Adding new item");
+                    }
+                }
             }
             else
             {
-                inventory.Add(itemToAdd);
+                items.Add(itemToAdd);
             }
-        }
-
-        public ItemObject DoesInventoryHaveItem(ItemObject itemToCheck)
-        {
-            foreach (var item in inventory)
-            {
-                if (item == itemToCheck)
-                {
-                    return item;
-                }
-            }
-            return null;
         }
 
         //Rmoves item
         public void RemoveItem(ItemObject itemToAdd)
         {
-            ItemObject newItem = DoesInventoryHaveItem(itemToAdd);
-            if (newItem != null)
+            for (int i = 0; i < items.Count; i++)
             {
-                newItem.amount--;
-            }
-            else
-            {
-                inventory.Add(itemToAdd);
+                if (items[i].item == itemToAdd.item)
+                {
+                    items[i].amount--;
+                }
+                else
+                {
+                    items.Remove(itemToAdd);
+                }
             }
         }
+
+        //ListToString
     }
 }

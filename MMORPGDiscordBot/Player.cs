@@ -116,7 +116,6 @@ namespace MMORPGDiscordBot
         {
             Dictionary<string, string> playerDic = new Dictionary<string, string>();
             Dictionary<string, string> inventoryDic = new Dictionary<string, string>();
-            inventory.AddItem(new ItemObject(Item.Wood, 10));
             playerDic.Add("userName", userName);
             playerDic.Add("gender", gender);
             playerDic.Add("location", location.ToString());
@@ -124,8 +123,7 @@ namespace MMORPGDiscordBot
             playerDic.Add("mining", mining.ToString());
             playerDic.Add("action", action.ToString());
             playerDic.Add("id", id.ToString());
-            inventory.inventory.Clear();
-            foreach (ItemObject item in inventory.inventory)
+            foreach (ItemObject item in inventory.items)
             {
                     inventoryDic.Add(item.item.ToString(), item.amount.ToString());
             }

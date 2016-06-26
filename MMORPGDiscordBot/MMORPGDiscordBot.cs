@@ -235,13 +235,12 @@ namespace MMORPGDiscordBot
                             throw new Exception();
                         }
                     }
-                    catch
+                    catch(Exception)
                     {
 
                     }
-
                 }
-                if (e.Message.Text.Contains("!attack"))
+                if (e.Message.Text.ToLower().Contains("!attack"))
                 {
                     try
                     {
@@ -262,6 +261,22 @@ namespace MMORPGDiscordBot
                     catch (Exception)
                     {
                         e.Channel.SendMessage("Invalid inputs.");
+                    }
+                }
+                if (e.Message.Text.ToLower().Contains("!inventory"))
+                {
+                    try
+                    {
+                        Player newPlayer = GetPlayerById(e.User.Id);
+                        Dictionary<string, int> itemList = new Dictionary<string, int>();
+                        foreach (ItemObject itemObject in newPlayer.inventory.items)
+                        {
+                            itemList.Add(itemObject.item.ToString(), itemObject.amount);
+                        }
+                    }
+                    catch(Exception)
+                    {
+                        e.Channel.SendMessage("Invalid inputs");
                     }
                 }
             }
