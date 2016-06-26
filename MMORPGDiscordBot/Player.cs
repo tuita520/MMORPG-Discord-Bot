@@ -123,9 +123,14 @@ namespace MMORPGDiscordBot
             playerDic.Add("mining", mining.ToString());
             playerDic.Add("action", action.ToString());
             playerDic.Add("id", id.ToString());
-            foreach (ItemObject item in inventory.items)
+            foreach (ItemObject itemObject in inventory.items)
             {
-                    inventoryDic.Add(item.item.ToString(), item.amount.ToString());
+                Console.WriteLine(itemObject.ToString());
+                if(!inventoryDic.ContainsKey(itemObject.item.ToString()))
+                {
+                    inventoryDic.Add(itemObject.item.ToString(), itemObject.amount.ToString());
+                }
+                                         
             }
             Console.WriteLine(inventoryDic.Count);
             String playerJson = JsonConvert.SerializeObject(playerDic,Formatting.Indented);

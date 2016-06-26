@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace MMORPGDiscordBot
     class Inventory
     {
         //List of items
-        public List<ItemObject> items = new List<ItemObject>();
+        public ConcurrentBag<ItemObject> items = new ConcurrentBag<ItemObject>();
 
         //Gets items based on input
         public ItemObject GetItem(ItemObject item)
@@ -25,46 +26,29 @@ namespace MMORPGDiscordBot
         }
 
         //Adds item
-        public void AddItem(ItemObject itemToAdd)
+        public bool AddItem(ItemObject itemToAdd)
         {
-            if(items.Count != 0)
-            {
-                for (int i = 0; i < items.Count; i++)
-                {
-                    if (items[i].item == itemToAdd.item)
-                    {
-                        items[i].amount++;
-                        Console.WriteLine("increaseing amount");
-                    }
-                    else
-                    {
-                        items.Add(itemToAdd);
-                        Console.WriteLine("Adding new item");
-                    }
-                }
-            }
-            else
+            if(items.Count == 0)
             {
                 items.Add(itemToAdd);
             }
+            foreach (ItemObject itemObject in items)
+            {
+                if (itemToAdd.item.ToString().Equals(itemObject.item.ToString()))
+                {
+                    Console.WriteLine("Increasing amount");
+                    itemObject.amount++;
+                    return true;
+                }
+            }
+            items.Add(itemToAdd);
+            return true;    
         }
 
         //Rmoves item
         public void RemoveItem(ItemObject itemToAdd)
         {
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i].item == itemToAdd.item)
-                {
-                    items[i].amount--;
-                }
-                else
-                {
-                    items.Remove(itemToAdd);
-                }
-            }
+            
         }
-
-        //ListToString
     }
 }

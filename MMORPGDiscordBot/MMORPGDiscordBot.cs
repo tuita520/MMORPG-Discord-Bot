@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -42,9 +43,11 @@ namespace MMORPGDiscordBot
 
             //Connecting the bot
             bot = new DiscordClient();
-            bot.Connect("mmorpgdiscordbot@gmail.com","");
+            bot.Connect("mmorpgdiscordbot@gmail.com", "");
             bot.MessageReceived += BotMessageRecieved;
             bot.Wait();
+
+           
         }
 
         //Updating each player
@@ -71,6 +74,27 @@ namespace MMORPGDiscordBot
                         + "!display \n"
                         + "!display USERNAME\n"
                         + "```");
+                }
+                //Inventory command
+                if (e.Message.Text.ToLower().Contains("!inventory"))
+                {
+                    try
+                    {
+                        ConcurrentBag<ItemObject> playerInventory = GetPlayerById(e.User.Id).inventory.items;
+                        StringBuilder builder = new StringBuilder();
+                        // Append to StringBuilder.
+                        builder.Append("```inventory " + "\n");
+                        foreach (ItemObject itemObject in playerInventory)
+                        {
+                            builder.Append(itemObject.item.ToString()).Append(" ").Append(itemObject.amount.ToString()).Append("\n");
+                        }
+                        builder.Append("```");
+                        e.Channel.SendMessage(builder.ToString());
+                    }
+                    catch (Exception)
+                    {
+                        e.Channel.SendMessage("Invalid inputs");
+                    }
                 }
                 //Create command
                 if (e.Message.Text.ToLower().Contains("!create"))
@@ -263,25 +287,8 @@ namespace MMORPGDiscordBot
                         e.Channel.SendMessage("Invalid inputs.");
                     }
                 }
-                if (e.Message.Text.ToLower().Contains("!inventory"))
-                {
-                    try
-                    {
-                        Player newPlayer = GetPlayerById(e.User.Id);
-                        Dictionary<string, int> itemList = new Dictionary<string, int>();
-                        foreach (ItemObject itemObject in newPlayer.inventory.items)
-                        {
-                            itemList.Add(itemObject.item.ToString(), itemObject.amount);
-                        }
-                    }
-                    catch(Exception)
-                    {
-                        e.Channel.SendMessage("Invalid inputs");
-                    }
-                }
             }
         }
-
         //Creates the new player
         private void CreateNewPlayer(MessageEventArgs e,String[] parms)
         {
