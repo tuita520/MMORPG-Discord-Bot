@@ -7,48 +7,50 @@ using System.Threading.Tasks;
 
 namespace MMORPGDiscordBot
 {
+    enum ItemType
+    {
+        Wood,
+        Ore,
+        Gold,
+        Null
+    };
     class Inventory
     {
-        //List of items
-        public ConcurrentBag<ItemObject> items = new ConcurrentBag<ItemObject>();
+        //Dictionary of items and their quanity
+        public ConcurrentDictionary<ItemType, int> items = new ConcurrentDictionary<ItemType, int>();
 
-        //Gets items based on input
-        public ItemObject GetItem(ItemObject item)
+        //Add item to inventory
+        public void AddItem(ItemType itemType, int quantity)
         {
-            foreach (var itemFound in items)
+            if (!items.ContainsKey(itemType))
             {
-                if (itemFound == item)
-                {
-                    return itemFound;
-                }
+                items.AddOrUpdate(itemType, quantity,(key,oldValue)=> { return oldValue; });
             }
-            return null;
+            else
+            {
+                items[itemType] += quantity;
+            }
         }
 
-        //Adds item
-        public bool AddItem(ItemObject itemToAdd)
+        //Find itemtype by string
+        public static ItemType GetItemTypeByString(string itemType)
         {
-            if(items.Count == 0)
+            if(itemType.ToLower().Contains("wood"))
             {
-                items.Add(itemToAdd);
+                return ItemType.Wood;
             }
-            foreach (ItemObject itemObject in items)
+            else if (itemType.ToLower().Contains("ore"))
             {
-                if (itemToAdd.item.ToString().Equals(itemObject.item.ToString()))
-                {
-                    Console.WriteLine("Increasing amount");
-                    itemObject.amount++;
-                    return true;
-                }
+                return ItemType.Ore;
             }
-            items.Add(itemToAdd);
-            return true;    
-        }
-
-        //Rmoves item
-        public void RemoveItem(ItemObject itemToAdd)
-        {
-            
+            else if (itemType.ToLower().Contains("gold"))
+            {
+                return ItemType.Gold;
+            }
+            else
+            {
+                return ItemType.Null;
+            }
         }
     }
 }

@@ -80,13 +80,12 @@ namespace MMORPGDiscordBot
                 {
                     try
                     {
-                        ConcurrentBag<ItemObject> playerInventory = GetPlayerById(e.User.Id).inventory.items;
                         StringBuilder builder = new StringBuilder();
                         // Append to StringBuilder.
-                        builder.Append("```inventory " + "\n");
-                        foreach (ItemObject itemObject in playerInventory)
+                        builder.Append("```inventory " + GetPlayerById(e.User.Id).userName +"\n");
+                        foreach (var itemObject in GetPlayerById(e.User.Id).inventory.items)
                         {
-                            builder.Append(itemObject.item.ToString()).Append(" ").Append(itemObject.amount.ToString()).Append("\n");
+                            builder.Append(itemObject.Key.ToString()).Append(" ").Append(itemObject.Value.ToString()).Append("\n");
                         }
                         builder.Append("```");
                         e.Channel.SendMessage(builder.ToString());
@@ -372,7 +371,7 @@ namespace MMORPGDiscordBot
                         {
                             foreach (JProperty item in content.Properties())
                             {
-                                playerInventory.AddItem(new ItemObject(ItemObject.GetItemTypeByString(item.Name.ToString()), (int)item.Value));
+                                playerInventory.AddItem(Inventory.GetItemTypeByString(item.ToString()), (int)item.Value);
                             }
                         }
                     }

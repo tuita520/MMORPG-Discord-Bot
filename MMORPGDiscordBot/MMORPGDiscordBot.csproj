@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="Inventory.cs" />
-    <Compile Include="Item.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MMORPGDiscordBot.cs" />
     <Compile Include="Player.cs" />

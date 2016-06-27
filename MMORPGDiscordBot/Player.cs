@@ -70,12 +70,12 @@ namespace MMORPGDiscordBot
             if (action == Action.Mining)
             {
                 mining += 1f;
-                inventory.AddItem(new ItemObject(Item.Ore,1));
+                inventory.AddItem(ItemType.Ore, 1);
             }
             else if (action == Action.WoodCutting)
             {
                 woodCutting += 1f;
-                inventory.AddItem(new ItemObject(Item.Wood, 1));
+                inventory.AddItem(ItemType.Wood, 1);
             }
             CreatePlayerJSON();
             Console.WriteLine("updated");
@@ -123,14 +123,9 @@ namespace MMORPGDiscordBot
             playerDic.Add("mining", mining.ToString());
             playerDic.Add("action", action.ToString());
             playerDic.Add("id", id.ToString());
-            foreach (ItemObject itemObject in inventory.items)
+            foreach (var itemObject in inventory.items)
             {
-                Console.WriteLine(itemObject.ToString());
-                if(!inventoryDic.ContainsKey(itemObject.item.ToString()))
-                {
-                    inventoryDic.Add(itemObject.item.ToString(), itemObject.amount.ToString());
-                }
-                                         
+                    inventoryDic.Add(itemObject.Key.ToString(), itemObject.Value.ToString());                                   
             }
             Console.WriteLine(inventoryDic.Count);
             String playerJson = JsonConvert.SerializeObject(playerDic,Formatting.Indented);
