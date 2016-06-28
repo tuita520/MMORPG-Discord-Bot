@@ -25,9 +25,17 @@ namespace MMORPGDiscordBot
         //Sets location when first instance of class is created
         static Location()
         {
-            townLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.town.png"));
-            forestLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.forest.png"));
-            mineLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.mine.png"));
+            try
+            {
+                townLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.town.png"));
+                forestLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.forest.png"));
+                mineLocation = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.mine.png"));
+                Console.WriteLine("Images have been loaded");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         //Return the location image based on place input
@@ -45,7 +53,7 @@ namespace MMORPGDiscordBot
             {
                 return mineLocation;
             }
-            return null;
+            return townLocation;
         }
 
         //Return location by string

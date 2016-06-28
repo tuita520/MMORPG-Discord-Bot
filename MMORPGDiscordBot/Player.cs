@@ -60,7 +60,6 @@ namespace MMORPGDiscordBot
             this.woodCutting = woodCutting;
             this.mining = mining;
             this.action = action;
-            this.action = action;
             this.id = playerID;
         }
 
@@ -78,6 +77,7 @@ namespace MMORPGDiscordBot
                 inventory.AddItem(ItemType.Wood, 1);
             }
             CreatePlayerJSON();
+            
             Console.WriteLine("updated");
         }
 
@@ -89,15 +89,15 @@ namespace MMORPGDiscordBot
                 string path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 string outputFileName = "PlayerPicture.png";
                 playerImage = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.DefaultPlayer.png"));
-                Bitmap bitmap = new Bitmap(playerImage.Width + Location.GetLocationImage(location).Width, Math.Max(playerImage.Height, Location.GetLocationImage(location).Height));
+                Bitmap bitmap = Location.GetLocationImage(location);
                 Graphics g;
                 Console.WriteLine("made it");
                 using (g = Graphics.FromImage(bitmap))
                 {
                     g.DrawImage(playerImage, 0, 0);
-                    g.DrawImage(Location.GetLocationImage(location), playerImage.Width, 0);
+                    g.DrawImage(Location.GetLocationImage(location), 650, 300);
                 }
-                playerImage.Dispose();
+                //playerImage.Dispose();
                 File.Delete(path + @"\MMORPGDicordBot\" + userName + @"\" + outputFileName);
                 bitmap.Save(path + @"\MMORPGDicordBot\" + userName + @"\" + outputFileName);
                 return bitmap;
@@ -125,7 +125,7 @@ namespace MMORPGDiscordBot
             playerDic.Add("id", id.ToString());
             foreach (var itemObject in inventory.items)
             {
-                    inventoryDic.Add(itemObject.Key.ToString(), itemObject.Value.ToString());                                   
+                inventoryDic.Add(itemObject.Key.ToString(), itemObject.Value.ToString());                                   
             }
             Console.WriteLine(inventoryDic.Count);
             String playerJson = JsonConvert.SerializeObject(playerDic,Formatting.Indented);

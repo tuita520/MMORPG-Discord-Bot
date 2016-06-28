@@ -301,6 +301,10 @@ namespace MMORPGDiscordBot
                 e.Channel.SendMessage("Player " + userName + " entered the world");
                 newPlayer.playerImage = new Bitmap(Assembly.GetExecutingAssembly().GetManifestResourceStream("MMORPGDiscordBot.DefaultPlayer.png"));
                 Image playerImageLoad = newPlayer.DisplayPlayer();
+                if(playerImageLoad == null)
+                {
+                    Console.WriteLine("playeriamgeload is null");
+                }
                 if (!Directory.Exists(path + @"\MMORPGDicordBot"))
                 {
                     Directory.CreateDirectory(path + @"\MMORPGDicordBot");
