@@ -42,7 +42,6 @@ namespace MMORPGDiscordBot
             this.gender = gender;
             location = Place.Town;
             playerImage = null;
-            inventory = new Inventory();
             woodCutting = 0;
             mining = 0;
             this.action = action;
@@ -55,7 +54,6 @@ namespace MMORPGDiscordBot
             this.userName = userName;
             this.gender = gender;
             this.location = location;
-            inventory = new Inventory();
             this.playerImage = playerImage;
             this.woodCutting = woodCutting;
             this.mining = mining;

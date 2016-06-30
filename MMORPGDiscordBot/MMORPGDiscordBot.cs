@@ -46,8 +46,6 @@ namespace MMORPGDiscordBot
             bot.Connect("mmorpgdiscordbot@gmail.com", "");
             bot.MessageReceived += BotMessageRecieved;
             bot.Wait();
-
-           
         }
 
         //Updating each player
@@ -347,14 +345,16 @@ namespace MMORPGDiscordBot
             foreach (var dir in dirs)
             {
                 String[] files = Directory.GetFiles(dir);
+                Console.WriteLine(files.Length);
                 foreach (var file in files)
                 {
+                    Console.WriteLine(file);
                     if (file.Contains("Picture"))
                     {
                         playerImage = Image.FromFile(file);
                         playerImage.Dispose();
                     }
-                    else if (file.Contains("player.json"))
+                    else if (file.Contains("player"))
                     {
                         string text = System.IO.File.ReadAllText(file);
                         jToken = JsonConvert.DeserializeObject<JToken>(text);
@@ -367,16 +367,15 @@ namespace MMORPGDiscordBot
                         id = jToken.SelectToken("id").ToString();
 
                     }
-                    else if (files.Contains("inventory"))
+                    else if (file.Contains("inventory.json"))
                     {
-                        jToken = JObject.Parse(file);
-                        JArray jArray = JArray.FromObject(jToken);
-                        foreach (JObject content in jArray)
+                        Console.WriteLine("Something is being added");
+                        string text = System.IO.File.ReadAllText(file);
+                        JObject jObject = JsonConvert.DeserializeObject<JObject>(text);
+                        foreach (var content in jObject)
                         {
-                            foreach (JProperty item in content.Properties())
-                            {
-                                playerInventory.AddItem(Inventory.GetItemTypeByString(item.ToString()), (int)item.Value);
-                            }
+                            Console.WriteLine("Something is being added");
+                            playerInventory.AddItem(Inventory.GetItemTypeByString(content.Key), (int)content.Value);
                         }
                     }
                 }
